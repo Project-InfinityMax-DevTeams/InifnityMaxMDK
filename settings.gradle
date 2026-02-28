@@ -12,4 +12,4 @@ pluginManagement {
 rootProject.name = "InfinityMaxAPI"
 
 // サブプロジェクトを登録
-include 'forge', 'fabric','src'
+include 'forge', 'fabric'
