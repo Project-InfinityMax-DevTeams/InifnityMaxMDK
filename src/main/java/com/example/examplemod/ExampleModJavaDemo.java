@@ -35,7 +35,9 @@ public final class ExampleModJavaDemo {
         SystemPipeline pipeline = new SystemPipeline();
         pipeline.addSystem(new ExampleEnergySystem());
         pipeline.initialize();
+        System.out.println("[Demo] Pipeline initialized");
         pipeline.tick();
+        System.out.println("[Demo] Pipeline tick completed");
     }
 
     /**
@@ -55,7 +57,7 @@ public final class ExampleModJavaDemo {
             Object raw = context.get("energy");
             int energy = raw instanceof Integer ? (Integer) raw : 0;
             // ここを変えると毎tickの増減ロジックを変更できます。
-            context.put("energy", energy - 1);
+            context.put("energy", Math.max(0, energy - 1));
         }
     }
 }

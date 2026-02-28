@@ -77,8 +77,9 @@ public final class ModRegistrationDsl {
      * DSLに無い種類を直感的に追加するための拡張ポイントです。
      * @param typeName 任意の種類名（例: "spell"）
      */
-    public void custom(String typeName, String id, Consumer<ElementSpec> spec) {
+    public void custom(String typeName, String id, String implClass, Consumer<ElementSpec> spec) {
         ElementSpec elementSpec = new ElementSpec();
+        elementSpec.implClass = implClass;
         spec.accept(elementSpec);
         elementSpec.put("customType", typeName);
         definitions.add(new GameElementDefinition(GameElementType.CUSTOM, id, elementSpec.implClass, elementSpec.properties));
