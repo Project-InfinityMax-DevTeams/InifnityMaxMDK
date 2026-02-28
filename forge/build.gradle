@@ -1,0 +1,63 @@
+// forge サブプロジェクトの build.gradle
+plugins {
+    id 'net.minecraftforge.gradle' version '6.0.30'
+}
+
+def prop = { String name, def defaultVal = null -> project.hasProperty(name) ? project.property(name) : defaultVal }
+
+minecraft {
+    mappings channel: 'official', version: prop('minecraft_version', '1.20.1')
+}
+
+
+// Forge 依存
+dependencies {
+    def mc = prop('minecraft_version', '1.20.1')
+    def fv = prop('forge_version', '47.2.0')
+    minecraft "net.minecraftforge:forge:${mc}-${fv}"
+}
+
+// Java 設定
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = (project.hasProperty('java_version') ? project.property('java_version').toInteger() : 17)
+}
+
+// mods.toml 展開
+processResources {
+    inputs.property "version", prop('mod_version', '0.1.0')
+    filesMatching('META-INF/mods.toml') {
+        expand(
+            mod_id: prop('mod_id', 'infinitymaxapi'),
+            mod_name: prop('mod_name', 'Your Mod Name'),
+            mod_version: prop('mod_version', '0.1.0'),
+            mod_description: prop('mod_description', ''),
+            mod_authors: prop('mod_authors', ''),
+            mod_license: prop('mod_license', ''),
+            minecraft_version: prop('minecraft_version', '1.20.1')
+        )
+    }
+}
+
+jar {
+    def id = prop('mod_id', 'infinitymaxapi')
+    def ver = prop('mod_version', '0.1.0')
+    archiveBaseName.set(id + "-forge")
+    archiveVersion.set(ver)
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+sourceSets {
+    main{
+        resources {
+            srcDir "../src/main/resources"
+        }
+        java {
+            srcDir "../src/main/java"
+            exclude "com/yuyuto/infinitymaxapi/loader/fabric/**"
+        }
+        kotlin {
+            srcDir "../src/main/kotlin"
+        }
+    }
+}

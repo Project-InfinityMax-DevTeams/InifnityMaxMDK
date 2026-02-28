@@ -1,0 +1,15 @@
+// settings.gradle（ルート）
+// pluginManagement はここに置く（サブプロジェクトには置かない）
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        maven { url = 'https://maven.fabricmc.net' }
+        maven { url = 'https://maven.minecraftforge.net' }
+    }
+}
+
+rootProject.name = "InfinityMaxAPI"
+
+// サブプロジェクトを登録
+include 'forge', 'fabric','src'

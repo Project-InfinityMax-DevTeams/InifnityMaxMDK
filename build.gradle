@@ -1,0 +1,83 @@
+// MDK用 Root Gradle 
+
+// プラグイン共通設定
+plugins {
+    id 'java'                       // Javaコードを扱う
+    id 'eclipse'                     // Eclipse連携
+    id 'idea'                        // IntelliJ連携
+    id 'org.jetbrains.kotlin.jvm' version '1.9.25' apply false // Kotlin用
+}
+
+// プロジェクト共通情報
+def prop = { String name, def defaultVal = null ->
+    // プロパティがあればそれを返す、なければデフォルト
+    project.hasProperty(name) ? project.property(name) : defaultVal
+}
+
+group = prop('mod_group', 'com.yuyuto')   // グループID
+version = prop('mod_version', '0.1.0')    // バージョン
+
+// Java Toolchain
+def javaVer = prop('java_version', '17')
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(Integer.parseInt(javaVer.toString()))
+    }
+}
+
+// 共通リポジトリ
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.minecraftforge.net/' }
+    maven { url 'https://maven.fabricmc.net/' }
+}
+
+// サブプロジェクト共通設定
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+
+    // グループ・バージョン継承
+    group = rootProject.group
+    version = rootProject.version
+
+    // 共通依存関係（API, Kotlin, JOMLなど）
+    dependencies {
+        implementation 'org.joml:joml:1.10.5'
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib'
+        implementation 'com.yuyuto.infinitymaxapi:0.1.0'
+    }
+
+    // サブプロジェクト用 Java/Kotlin Toolchain
+    def spJavaVer = rootProject.hasProperty('java_version') ? rootProject.property('java_version') : '17'
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(Integer.parseInt(spJavaVer.toString()))
+        }
+    }
+    kotlin {
+        jvmToolchain(Integer.parseInt(spJavaVer.toString()))
+    }
+
+    // サブプロジェクトリポジトリも共通
+    repositories {
+        mavenCentral()
+        maven { url 'https://maven.fabricmc.net/' }
+        maven { url 'https://maven.minecraftforge.net/' }
+    }
+}
+
+// ビルドタスク連携
+
+// root build を呼んだら Fabric と Forge を両方 build する
+tasks.named('build') {
+    dependsOn(':fabric:build', ':forge:build')
+}
+
+// root 側の JavaCompile は無効化（サブプロジェクトで compile させるため）
+tasks.withType(JavaCompile).configureEach {
+    if (project == rootProject) {
+        enabled = false
+    }
+}
