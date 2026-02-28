@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "infinitymaxMDK",
+  "id": "infinitymaxmdk",
   "version": "${version}",
   "name": "InfinityMax MDK",
   "description": "InfinityMax MDK for Fabric.",

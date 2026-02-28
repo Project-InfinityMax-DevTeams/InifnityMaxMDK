@@ -17,6 +17,9 @@ public final class SystemPipeline {
      * @param system 追加するシステム
      */
     public void addSystem(ModSystem system) {
+        if (system == null) {
+            throw new IllegalArgumentException("system must not be null");
+        }
         systems.add(system);
     }
 
