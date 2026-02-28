@@ -63,7 +63,7 @@ public final class ModCommonLogic {
     /**
      * `@brief` パケット受信時処理例。 / Example of packet reception processing.
      * `@param` context ローダー側で渡される任意コンテキスト / Arbitrary context passed by the loader side.
-     * `@param` packet 受信パケット / Receive packet.
+     * `@param` packet 受信パケット / Received packet.
      */
     public static void onPacketReceived(Object context, Object packet) {
         System.out.println(ModDeveloperTextUtil.prefix("Packet") + " packet=" + packet + ", ctx=" + context);
