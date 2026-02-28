@@ -53,9 +53,20 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/Yuyuto000/InfinityMaxAPI")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
         maven { url 'https://maven.fabricmc.net/' }
         maven { url 'https://maven.minecraftforge.net/' }
     }
+}
+
+dependencies {
+    implementation "com.yuyuto:infinitymaxapi:1.0.0"
 }
 
 tasks.named('build') {
