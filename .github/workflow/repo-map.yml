@@ -1,0 +1,45 @@
+name: Repository Directory Map
+
+# 実行トリガー（手動 + mainへのpush）
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  generate-map:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      # リポジトリ取得
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # treeコマンドをインストール
+      - name: Install tree
+        run: sudo apt-get update && sudo apt-get install -y tree
+
+      # ディレクトリマップ生成
+      - name: Generate directory map
+        run: |
+          tree -a -I ".git|node_modules|.gradle|build" > repo-map.txt
+
+      # Issueに投稿
+      - name: Post directory map to Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const map = fs.readFileSync('repo-map.txt', 'utf8');
+            const trimmed = map.length > 60000 ? map.slice(0, 60000) : map;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Repository Directory Map",
+              body: "Current repository structure:\n\n```\n" + trimmed + "\n```"
+            });
