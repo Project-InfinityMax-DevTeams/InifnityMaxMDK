@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * 目的:
  * <ul>
  *     <li>文字列IDと数値を変えるだけでMOD独自要素を定義できる</li>
- *     <li>DSLに存在しない要素も {@link #custom(String, String, Consumer)} で追加できる</li>
+ *     <li>DSLに存在しない要素も {`@link` `#custom`(String, String, String, Consumer)} で追加できる</li>
  * </ul>
  */
 public final class ModRegistrationDsl {
@@ -86,6 +86,12 @@ public final class ModRegistrationDsl {
     }
 
     private void add(GameElementType type, String id, String implClass, Consumer<ElementSpec> spec) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("id must not be null or blank");
+        }
+        if (implClass == null || implClass.isBlank()) {
+            throw new IllegalArgumentException("implClass must not be null or blank");
+        }
         ElementSpec elementSpec = new ElementSpec();
         elementSpec.implClass = implClass;
         spec.accept(elementSpec);
