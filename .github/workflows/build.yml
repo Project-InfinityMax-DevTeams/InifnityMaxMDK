@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_USERNAME: ${{ github.actor }}
-      GITHUB_PAT: ${{ secrets.GPR_TOKEN }} 
+      GPR_TOKEN: ${{ secrets.GPR_TOKEN }} 
 
     permissions:
       contents: read
