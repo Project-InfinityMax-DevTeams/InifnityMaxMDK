@@ -88,7 +88,7 @@ object InfinityMaxDslRegistration {
 
             packet<Any>("example_packet") {
                 resourceId = "network/example_packet"
-                phase = Phhase.RECEIVE
+                phase = Phase.RECEIVE
                 connector = ModCommonLogic::onPacketReceived
             }
         }
