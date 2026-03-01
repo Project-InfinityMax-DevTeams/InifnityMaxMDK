@@ -7,7 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      GPR_TOKEN: ${{ secrets.GPR_TOKEN }}
+      
     permissions:
       contents: read
       issues: write
