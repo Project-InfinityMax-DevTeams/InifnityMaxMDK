@@ -58,7 +58,9 @@ object InfinityMaxDslRegistration {
                 phase = Phase.INTERACT
                 // ここを任意の数値に変更: 消費値
                 meta("power_cost", 20)
-                connector = ModCommonLogic::onBlockInteract
+                connector = BehaviorConnector { ctx -> 
+                    ModCommonLogic.onBlockInteract(ctx)
+                }
             }
 
             item("example_item") {
@@ -66,31 +68,41 @@ object InfinityMaxDslRegistration {
                 phase = Phase.USE
                 // ここを任意の数値に変更: クールダウン
                 meta("cooldown", 40)
-                connector = ModCommonLogic::onItemUse
+                connector = BehaviorConnector { ctx -> 
+                    ModCommonLogic.onItemUse(ctx)
+                }
             }
 
             entity("example_entity") {
                 resourceId = "entities/example_entity"
                 phase = Phase.TICK
-                connector = ModCommonLogic::onEntityTick
+                connector = BehaviorConnector { ctx -> 
+                    ModCommonLogic.onEntityTick(ctx)
+                }
             }
 
             keybind("open_example_gui") {
                 resourceId = "keybind/open_example_gui"
                 phase = Phase.PRESS
-                connector = ModCommonLogic::onClientKeyPress
+                connector = BehaviorConnector { ctx -> 
+                    ModCommonLogic.onClientKeyPress(ctx)
+                }
             }
 
             ui("example_screen") {
                 resourceId = "ui/example_screen"
                 phase = Phase.RENDER
-                connector = ModCommonLogic::onGuiRender
+                connector = BehaviorConnector { ctx ->
+                    ModCommonLogic.onGuiRender(ctx)
+                }
             }
 
             packet<Any>("example_packet") {
                 resourceId = "network/example_packet"
                 phase = Phase.RECEIVE
-                connector = ModCommonLogic::onPacketReceived
+                connector = BehaviorConnector { ctx ->
+                    ModCommonLogic.onPacketReceived(ctx)
+                }
             }
         }
     }
