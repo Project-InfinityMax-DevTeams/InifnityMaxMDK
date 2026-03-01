@@ -54,7 +54,7 @@ object InfinityMaxDslRegistration {
         behavior {
             block("example_block") {
                 resourceId = "models/block/example_block"
-                phase = "interact"
+                phase = Phase.INTERACT
                 // ここを任意の数値に変更: 消費値
                 meta("power_cost", 20)
                 connector = ModCommonLogic::onBlockInteract
@@ -62,7 +62,7 @@ object InfinityMaxDslRegistration {
 
             item("example_item") {
                 resourceId = "textures/item/example_item"
-                phase = "use"
+                phase = Phase.USE
                 // ここを任意の数値に変更: クールダウン
                 meta("cooldown", 40)
                 connector = ModCommonLogic::onItemUse
@@ -70,25 +70,25 @@ object InfinityMaxDslRegistration {
 
             entity("example_entity") {
                 resourceId = "entities/example_entity"
-                phase = "tick"
+                phase = Phase.TICK
                 connector = ModCommonLogic::onEntityTick
             }
 
             keybind("open_example_gui") {
                 resourceId = "keybind/open_example_gui"
-                phase = "press"
+                phase = Phase.PRESS
                 connector = ModCommonLogic::onClientKeyPress
             }
 
             ui("example_screen") {
                 resourceId = "ui/example_screen"
-                phase = "render"
+                phase = Phase.RENDER
                 connector = ModCommonLogic::onGuiRender
             }
 
             packet<Any>("example_packet") {
                 resourceId = "network/example_packet"
-                phase = "receive"
+                phase = Phhase.RECEIVE
                 connector = ModCommonLogic::onPacketReceived
             }
         }
